@@ -1,0 +1,132 @@
+<template>
+  <div
+    class="task-card px-3 py-2 my-2"
+    :class="{ completed: task.isComplete }"
+    :style="{ borderLeft: task.priority ? `3px solid ${task.priority.color}` : 'none' }"
+  >
+    <div class="d-flex align-items-center w-100">
+      <div class="w-100">
+        <textarea
+          class="form-control text-field text-left" 
+          v-model="task.text"
+          @keydown.enter="rows++"
+          :rows="!isEdit ? 1 : 3"
+          type="text"
+          :disabled="!isEdit"
+        ></textarea>
+      </div>
+
+      <div class="d-flex ml-auto mt-2" v-if="isActive && !isEdit">
+        <div @click.stop="complete" v-if="!task.isComplete" class="mx-2">
+          <img src="../../assets/svg/done.svg" width="25" alt="done" />
+        </div>
+        <div @click.stop="start" v-else-if="task.isComplete" class="mx-2">
+          <img src="../../assets/svg/done.svg" width="25" alt="done" />
+        </div>
+        <div @click.stop="isEdit = true" class="mx-2">
+          <img src="../../assets/svg/edit.svg" width="25" alt="done" />
+        </div>
+        <div @click="removeTask" class="mx-2">
+          <img src="../../assets/svg/remove.svg" width="25" alt="done" />
+        </div>
+      </div>
+    </div>
+
+    <div class="ml-auto d-flex mt-2" v-if="isEdit">
+      <v-menu offset-y dark>
+        <template v-slot:activator="{ on }">
+          <v-btn text dark small v-on="on">
+            Priority
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(item, index) in colors"
+            :key="index"
+            @click="task.priority = item"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-btn dark small text @click="changeDueDate">Due Date</v-btn>
+      <v-btn small color="success" class="mx-2" @click.stop="editTask">
+        Save
+      </v-btn>
+    </div>
+
+     <div class="dialog-overlay flex-column" v-if="showDatePicker">
+        <v-date-picker dark v-model="picker"></v-date-picker>
+        <v-btn text dark class="mt-2" v-if="picker" @click="saveDate">Save</v-btn>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    props: ['task', 'isActive', 'index'],
+    data: () => ({
+      isEdit: false,
+      showDatePicker: false,
+      picker: null,
+      rows: 1,
+      colors: [
+        { title: 'High', color: '#F44336' },
+        { title: 'Medium', color: '#FF9800' },
+        { title: 'Low', color: '#76FF03' },
+      ],
+    }),
+    methods: {
+      editTask() {
+        this.$store.dispatch('editTask', {
+          task: this.task,
+          taskId: this.index,
+          listId: this.$route.params.id,
+        });
+        this.isEdit = false;
+        this.rows = 1;
+      },
+      changeDueDate() {
+        this.picker = this.task.dueDate || null;
+        this.showDatePicker = true;
+      },
+      removeTask() {
+        this.$store.dispatch('removeTask', {
+          taskId: this.index,
+          listId: this.$route.params.id,
+        });
+      },
+      complete() {
+        this.task.isComplete = true;
+        this.editTask();
+      },
+      start() {
+        this.task.isComplete = false;
+        this.editTask();
+      },
+      saveDate() {
+        this.task.dueDate = this.picker;
+        this.showDatePicker = false;
+        this.picker = null;
+      }
+    },
+  };
+</script>
+
+<style scoped>
+  .task-card {
+    background: rgb(36, 35, 51);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .completed .text-field {
+    text-decoration: line-through;
+    color: grey;
+    min-height: 42px;
+  }
+  .text-field {
+    min-height: 42px;
+    line-height: 30px;
+  }
+</style>
