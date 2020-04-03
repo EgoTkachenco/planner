@@ -20,6 +20,7 @@
       user(val) {
         if(val) {
           this.$store.dispatch('loadLists');
+          this.$store.dispatch('loadProjects');
         }
       }
     },
@@ -31,9 +32,9 @@
   #app {
     font-family: 'Baloo Chettan 2', cursive;
     text-align: center;
-    color: #fff;;
     min-height: 100vh;
     background: rgb(33, 33, 47);
+    color: #ffffff;
   }
   .success-bg {
     background: #37b86a;

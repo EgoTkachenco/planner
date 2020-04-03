@@ -38,7 +38,17 @@ const routes = [
     path: '/shopList',
     name: 'ShopList',
     component: () => import ('../views/ShopList.vue')
-  }
+  },
+  {
+    path: '/projects',
+    name: 'Projects',
+    component: () => import('../views/Projects.vue'),
+  },
+  {
+    path: '/project/:id',
+    name: 'Project',
+    component: () => import('../views/Project.vue'),
+  },
 ];
 
 const router = new VueRouter({
@@ -48,6 +58,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  let user = JSON.parse(localStorage.getItem('user'));
+  if(user && user.expirationDate >= new Date().getTime()) {
+    store.dispatch('relogUser', user);
+    store.dispatch('loadLists');
+    store.dispatch('loadProjects'); 
+  }
+
   if (store.state.auth.user) {
     if (to.name === 'Auth') {
       router.push({ name: 'Home' });

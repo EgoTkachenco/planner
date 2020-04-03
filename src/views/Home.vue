@@ -56,6 +56,22 @@
       </router-link>
     </div>
 
+    <div class="col-12 mt-2">
+      <router-link
+        tag="div"
+        :to="{ name: 'Projects' }"
+        class="home-card px-2 py-3"
+      >
+        <!-- <img
+          src="../assets/svg/plan.svg"
+          width="30"
+          class="mr-3"
+          alt="calendar"
+        /> -->
+        Projects
+      </router-link>
+    </div>
+
     <div class="col-12">
 			<today-tasks></today-tasks>
 		</div>

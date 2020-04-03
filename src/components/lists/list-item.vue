@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ path: `/list/${id}` }" tag="div" class="list-card my-2 p-2">
+  <router-link :to="{ path: `/list/${id}` }" tag="div" class="list-card c-secondary my-2 p-2">
     <div class="d-flex align-items-center">
       <span class="h4">{{list.title}}</span>
       <v-btn class="ml-auto" fab small color="error" v-if="listHighPrio">
