@@ -1,6 +1,6 @@
 # Planner-org
 
-## About
+### About
 Application for planning and organizing your time
 
 ## Project setup
