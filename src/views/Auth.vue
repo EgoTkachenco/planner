@@ -6,7 +6,7 @@
         <div class="h5 text-center">with Google</div>
 
         <button class="btn btn-primary mt-5" @click="googleSignIn">
-          Click To Log In
+          Soska
         </button>
       </div>
       <div class="auth-card">
