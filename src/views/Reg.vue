@@ -19,13 +19,8 @@
 
         <div class="h5 text-center"></div>
 
-        <button class="btn btn-primary mt-1 mx-5" @click="loginWithEmail">
+        <button class="btn btn-primary mt-1" @click="loginWithEmail">
           Login
-        </button>
-
-        
-        <button class="btn btn-primary mt-1 mx-5" @click="loginWithEmail">
-          Registration
         </button>
 
         <br>
