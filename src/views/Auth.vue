@@ -8,17 +8,16 @@
         <form action="" class="col-12">
           <div class="form-group">
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Login">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your login with anyone else.</small>
           </div>
           
-           <div class="form-group">
+           <div class="form-group my-0">
             <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your Password with anyone else.</small>
+            <small id="emailHelp" class="form-text text-muted mt-1">We will never share your data with anyone else. *</small>
           </div>
         </form>
 
 
-        <button class="btn btn-primary  p-1 my-3 mx-3 col-4" @click="loginWithEmail">
+        <button class="btn btn-primary  p-1 my-2 mx-3 col-4" @click="loginWithEmail">
           Login
         </button>
 
@@ -30,7 +29,7 @@
 
         <div class="h5 text-center mt-10 reg-text">If you do not have an account, you can register it</div>
         
-        <button class="btn  mt-2  btn-link" @click="Registration">
+        <button class="btn  mt-0  btn-link" @click="Registration" v-li>
           Registration
         </button>
 
