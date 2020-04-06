@@ -17,20 +17,21 @@
         </form>
 
 
-        <button class="btn btn-primary p-1 my-2 mx-3 col-11" @click="loginWithEmail">
+        <button class="btn btn-login btn-secondary py-2 my-2 mx-3 col-11 btn-block" @click="loginWithEmail">
           Login
         </button>
 
-        <button class="btn btn-outline-primary py-2 px-5 btn-google mt-1 btn-sm col-11" @click="googleSignIn">
+        <button class="btn py-2 px-5 btn-google mt-1 btn-sm col-11 btn-12 " @click="googleSignIn">
           Login with Google
         </button>
 
-        <div class="h5 text-center mt-10 reg-text">If you do not have an account, you can register it</div>
+        <div class="h5 text-center mt-5 reg-text">If you do not have an account, you can register it</div>
         
+        <a href="Reg.vue">
         <button class="btn  mt-0  btn-link" @click="Registration" v-li>
           Registration
         </button>
-
+        </a>
         <br>
 
       </div>
@@ -105,8 +106,7 @@
     max-width: 350px;
     /* background: rgb(36,35,51); */
     color: #fff;
-    border-radius: 20px;
-    
+    border-radius: 20px;  
   }
 
   .input-auth {
@@ -115,9 +115,18 @@
     padding: 5px  10px;
   }
 
-  .btn-google {
+  .btn-login {
+    background: #41B883;
     color: #fff;
-      }
+    border: 0;
+  }
+
+  .btn-google {
+    background: #35495E;
+    color: #fff;
+    border: 1px;
+    border-color: #35495E;
+  }
 
   .reg-text {
     color: rgb(180, 180, 180);

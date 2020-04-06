@@ -49,6 +49,11 @@ const routes = [
     name: 'Project',
     component: () => import('../views/Project.vue'),
   },
+  {
+    path: '/reg',
+    name: 'Reg',
+    component: () => import('../views/Reg.vue'), 
+  }
 ];
 
 const router = new VueRouter({
