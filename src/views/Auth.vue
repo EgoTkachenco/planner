@@ -18,17 +18,19 @@
         </form>
 
 
-        <button class="btn btn-primary mt-1 mx-5" @click="loginWithEmail">
+        <button class="btn btn-primary  p-1 my-3 mx-3 col-4" @click="loginWithEmail">
           Login
         </button>
 
-        <button class="btn btn-primary btn-google mt-1" @click="googleSignIn">
+        <br>
+
+        <button class="btn btn-outline-primary py-2 px-5 btn-google  mt-1 btn-sm" @click="googleSignIn">
           Login with Google
         </button>
 
         <div class="h5 text-center mt-10 reg-text">If you do not have an account, you can register it</div>
         
-        <button class="btn btn-primary mt-2 btn-reg" @click="loginWithEmail">
+        <button class="btn  mt-2  btn-link" @click="Registration">
           Registration
         </button>
 
@@ -79,6 +81,11 @@
       },
     },
     methods: {
+
+      Registration() {
+        
+      },
+
       loginWithEmail() {
 
       },
@@ -112,8 +119,7 @@
   }
 
   .btn-google {
-    background: 0;
-    border-color:#007bff;
+    color: #fff;
       }
 
   .reg-text {
@@ -124,6 +130,7 @@
   .btn-reg {
     background: 0;
     border: 0;
+    font-size: 5px;
   }
-
+  
 </style>
