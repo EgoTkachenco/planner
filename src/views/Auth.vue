@@ -17,13 +17,11 @@
         </form>
 
 
-        <button class="btn btn-primary  p-1 my-2 mx-3 col-4" @click="loginWithEmail">
+        <button class="btn btn-primary p-1 my-2 mx-3 col-11" @click="loginWithEmail">
           Login
         </button>
 
-        <br>
-
-        <button class="btn btn-outline-primary py-2 px-5 btn-google  mt-1 btn-sm" @click="googleSignIn">
+        <button class="btn btn-outline-primary py-2 px-5 btn-google mt-1 btn-sm col-11" @click="googleSignIn">
           Login with Google
         </button>
 
