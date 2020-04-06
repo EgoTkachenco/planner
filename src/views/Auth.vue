@@ -17,22 +17,23 @@
           </div>
         </form>
 
-        <div class="h5 text-center"></div>
 
         <button class="btn btn-primary mt-1 mx-5" @click="loginWithEmail">
           Login
         </button>
 
+        <button class="btn btn-primary btn-google mt-1" @click="googleSignIn">
+          Login with Google
+        </button>
+
+        <div class="h5 text-center mt-10 reg-text">If you do not have an account, you can register it</div>
         
-        <button class="btn btn-primary mt-1 mx-5" @click="loginWithEmail">
+        <button class="btn btn-primary mt-2 btn-reg" @click="loginWithEmail">
           Registration
         </button>
 
         <br>
 
-        <button class="btn btn-primary btn-google mt-5" @click="googleSignIn">
-          Login with Google
-        </button>
       </div>
       <div class="auth-card">
         {{loadingMessage}}
@@ -112,6 +113,17 @@
 
   .btn-google {
     background: 0;
-    border-color:cornflowerblue;
+    border-color:#007bff;
       }
+
+  .reg-text {
+    color: rgb(180, 180, 180);
+    font-size: 13px;
+  }
+
+  .btn-reg {
+    background: 0;
+    border: 0;
+  }
+
 </style>
