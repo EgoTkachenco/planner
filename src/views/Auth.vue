@@ -26,12 +26,12 @@
         </button>
 
         <div class="h5 text-center mt-5 reg-text">If you do not have an account, you can register it</div>
-        
-        <a href="Reg.vue">
+
         <button class="btn  mt-0  btn-link" @click="Registration" v-li>
+        <a href="Reg.vue">
           Registration
-        </button>
         </a>
+        </button>
         <br>
 
       </div>
