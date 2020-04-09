@@ -28,9 +28,9 @@
         <div class="h5 text-center mt-5 reg-text">If you do not have an account, you can register it</div>
 
         <button class="btn  mt-0  btn-link" @click="Registration" v-li>
-        <a href="Reg.vue">
+        <router-link :to="{name: 'Reg'}">
           Registration
-        </a>
+        </router-link>
         </button>
         <br>
 
