@@ -26,23 +26,8 @@
           />
         </div>
 
-<<<<<<< HEAD
         <div class="error p-1" v-if="error">{{ error }}</div>
-=======
-        <form action="" class="col-12">
-          <div class="form-group">
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Login">
-          </div>
-          
-           <div class="form-group my-0">
-            <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password">
-            <small id="emailHelp" class="form-text text-muted mt-1">We will never share your data with anyone else. *</small>
-          </div>
-        </form>
->>>>>>> c8425effa99cfb65b92a1f7594e2b7a20c913c02
 
-
-<<<<<<< HEAD
         <button class="btn btn-primary font-weight-bold mt-5" @click="loginWithEmail">
           Sign In
         </button>
@@ -51,22 +36,6 @@
 
         <button class="text-warning mt-md-5" @click="googleSignIn">
           Sign with Google
-=======
-        <button class="btn btn-login btn-secondary py-2 my-2 mx-3 col-11 btn-block" @click="loginWithEmail">
-          Login
-        </button>
-
-        <button class="btn py-2 px-5 btn-google mt-1 btn-sm col-11 btn-12 " @click="googleSignIn">
-          Login with Google
-        </button>
-
-        <div class="h5 text-center mt-5 reg-text">If you do not have an account, you can register it</div>
-
-        <button class="btn  mt-0  btn-link" @click="Registration" v-li>
-        <router-link :to="{name: 'Reg'}">
-          Registration
-        </router-link>
->>>>>>> c8425effa99cfb65b92a1f7594e2b7a20c913c02
         </button>
         <br>
 
