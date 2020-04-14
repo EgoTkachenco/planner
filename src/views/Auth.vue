@@ -2,35 +2,46 @@
   <div class="row justify-content-center h-100-vh">
     <div class="col-12 d-flex align-items-center justify-content-center">
       <div class="auth-card w-100 p-4 py-5" v-if="!isLoading">
-        <img src="../assets/logo-p.svg" alt="logo-vue" width="300px" height="100px">
-        <div class="h3 text-center">Sign Up / Sign In</div>
+        <img
+          src="../assets/logo-p.svg"
+          alt="logo-vue"
+          width="300px"
+          height="100px"
+        />
+        <div class="h3 text-center mb-5">Sign Up / Sign In</div>
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-control font-weight-bold"
+            v-model="login"
+            placeholder="Login"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control font-weight-bold"
+            v-model="password"
+            placeholder="Password"
+          />
+        </div>
 
-        <form action="" class="col-12">
-          <div class="form-group">
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Login">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your login with anyone else.</small>
-          </div>
-          
-           <div class="form-group">
-            <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your Password with anyone else.</small>
-          </div>
-        </form>
+        <div class="error p-1" v-if="error">{{ error }}</div>
 
         <div class="h5 text-center"></div>
 
-        <button class="btn btn-primary mt-5" @click="loginWithEmail">
-          Login
+        <button class="btn btn-primary font-weight-bold mt-5" @click="loginWithEmail">
+          Sign In
         </button>
 
-        <br>
+        <br />
 
-        <button class="btn btn-primary btn-google mt-5" @click="googleSignIn">
+        <button class="text-warning mt-md-5" @click="googleSignIn">
           Sign with Google
         </button>
       </div>
-      <div class="auth-card">
-        {{loadingMessage}}
+      <div class="auth-card" v-else>
+        {{ loadingMessage }}
       </div>
     </div>
   </div>
@@ -42,7 +53,9 @@
       isLoading: false,
       messageTimeout: null,
       loadingMessage: '',
-       
+      login: '',
+      password: '',
+      error: '',
     }),
     watch: {
       isLoading(val) {
@@ -74,7 +87,27 @@
     },
     methods: {
       loginWithEmail() {
-
+        if (this.isFormValid(this.login, this.password)) {
+          this.isLoading = true;
+          this.$store
+            .dispatch('signIn', { login: this.login, password: this.password })
+            .then(() => {
+              if (this.$store.state.auth.user) {
+                this.isLoading = false;
+                this.$router.push({ name: 'Home' });
+              }
+            })
+            .catch((err) => {
+              this.error = err.msg;
+            });
+        }
+      },
+      isFormValid(login, password) {
+        if (login !== '' && password !== '') {
+          return true;
+        } else {
+          return false;
+        }
       },
       googleSignIn() {
         this.isLoading = true;
@@ -86,27 +119,21 @@
         });
       },
     },
-
   };
 </script>
 
 <style scoped>
   .auth-card {
     max-width: 350px;
-    /* background: rgb(36,35,51); */
     color: #fff;
     border-radius: 20px;
-    
+    display: flex;
+    flex-direction: column;
   }
 
   .input-auth {
     border: 1px #fff;
     border-color: #fff;
-    padding: 5px  10px;
+    padding: 5px 10px;
   }
-
-  .btn-google {
-    background: 0;
-    border-color:cornflowerblue;
-      }
 </style>

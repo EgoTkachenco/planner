@@ -1,6 +1,8 @@
 import firebase from 'firebase';
 let provider = new firebase.auth.GoogleAuthProvider();
 
+// let apiUrl = 'https://intense-meadow-61425.herokuapp.com/api/'
+
 let state = {
   user: null,
 };
@@ -57,7 +59,11 @@ let actions = {
           commit('SET_USER', null);
         },
       );
-	},
+  },
+  
+  // signIn({ commit }, { login, password }) {
+    
+  // }
 };
 
 export default {
