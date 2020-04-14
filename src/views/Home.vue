@@ -1,8 +1,8 @@
 <template>
-  <div class="row pt-5">
+  <div class="row pt-5 nav-margin">
     <app-menu></app-menu>
     
-    <div class="col-12 mt-5">
+    <div class="col-12">
 			<today-tasks></today-tasks>
 		</div>
   </div>
@@ -20,5 +20,7 @@
 </script>
 
 <style scoped>
-  
+  .nav-margin {
+    margin-top: 75px;
+  }
 </style>
