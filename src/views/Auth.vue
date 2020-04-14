@@ -131,13 +131,10 @@
   .auth-card {
     max-width: 350px;
     color: #fff;
-<<<<<<< HEAD
     border-radius: 20px;
     display: flex;
     flex-direction: column;
-=======
     border-radius: 20px;  
->>>>>>> c8425effa99cfb65b92a1f7594e2b7a20c913c02
   }
 
   .input-auth {
@@ -145,9 +142,6 @@
     border-color: #fff;
     padding: 5px 10px;
   }
-<<<<<<< HEAD
-=======
-
   .btn-login {
     background: #41B883;
     color: #fff;
@@ -171,6 +165,4 @@
     border: 0;
     font-size: 5px;
   }
-  
->>>>>>> c8425effa99cfb65b92a1f7594e2b7a20c913c02
 </style>
