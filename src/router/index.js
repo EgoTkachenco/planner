@@ -49,6 +49,11 @@ const routes = [
     name: 'Project',
     component: () => import('../views/Project.vue'),
   },
+  {
+    path: '/reg',
+    name: 'Reg',
+    component: () => import('../views/Reg.vue'), 
+  }
 ];
 
 const router = new VueRouter({
@@ -66,12 +71,12 @@ router.beforeEach((to, from, next) => {
   }
 
   if (store.state.auth.user) {
-    if (to.name === 'Auth') {
+    if (to.name === 'Auth' || to.name === 'Reg') {
       router.push({ name: 'Home' });
     } else {
       next();
     }
-  } else if (to.name === 'Auth') {
+  } else if (to.name === 'Auth' || to.name === 'Reg') {
     next();
   } else {
     router.push({ name: 'Auth' });
