@@ -2,15 +2,46 @@
   <div class="row justify-content-center h-100-vh">
     <div class="col-12 d-flex align-items-center justify-content-center">
       <div class="auth-card w-100 p-4 py-5" v-if="!isLoading">
-        <div class="h3 text-center">SignUp / SignIn</div>
-        <div class="h5 text-center">with Google</div>
+        <img
+          src="../assets/logo-p.svg"
+          alt="logo-vue"
+          width="300px"
+          height="100px"
+        />
+        <div class="h3 text-center mb-5">Sign Up / Sign In</div>
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-control font-weight-bold"
+            v-model="login"
+            placeholder="Login"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control font-weight-bold"
+            v-model="password"
+            placeholder="Password"
+          />
+        </div>
 
-        <button class="btn btn-primary mt-5" @click="googleSignIn">
-          Click To Log In
+        <div class="error p-1" v-if="error">{{ error }}</div>
+
+        <button class="btn btn-primary font-weight-bold mt-5" @click="loginWithEmail">
+          Sign In
         </button>
+
+        <br />
+
+        <button class="text-warning mt-md-5" @click="googleSignIn">
+          Sign with Google
+        </button>
+        <br>
+
       </div>
-      <div class="auth-card">
-        {{loadingMessage}}
+      <div class="auth-card" v-else>
+        {{ loadingMessage }}
       </div>
     </div>
   </div>
@@ -22,6 +53,9 @@
       isLoading: false,
       messageTimeout: null,
       loadingMessage: '',
+      login: '',
+      password: '',
+      error: '',
     }),
     watch: {
       isLoading(val) {
@@ -52,6 +86,34 @@
       },
     },
     methods: {
+
+      Registration() {
+        
+      },
+
+      loginWithEmail() {
+        if (this.isFormValid(this.login, this.password)) {
+          this.isLoading = true;
+          this.$store
+            .dispatch('signIn', { login: this.login, password: this.password })
+            .then(() => {
+              if (this.$store.state.auth.user) {
+                this.isLoading = false;
+                this.$router.push({ name: 'Home' });
+              }
+            })
+            .catch((err) => {
+              this.error = err.msg;
+            });
+        }
+      },
+      isFormValid(login, password) {
+        if (login !== '' && password !== '') {
+          return true;
+        } else {
+          return false;
+        }
+      },
       googleSignIn() {
         this.isLoading = true;
         this.$store.dispatch('googleSignin').then(() => {
@@ -62,15 +124,53 @@
         });
       },
     },
-
   };
 </script>
 
 <style scoped>
   .auth-card {
     max-width: 350px;
-    /* background: rgb(36,35,51); */
-    color: rgba(255, 255, 255, 0.75);
+    color: #fff;
+<<<<<<< HEAD
     border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+=======
+    border-radius: 20px;  
+>>>>>>> c8425effa99cfb65b92a1f7594e2b7a20c913c02
   }
+
+  .input-auth {
+    border: 1px #fff;
+    border-color: #fff;
+    padding: 5px 10px;
+  }
+<<<<<<< HEAD
+=======
+
+  .btn-login {
+    background: #41B883;
+    color: #fff;
+    border: 0;
+  }
+
+  .btn-google {
+    background: #35495E;
+    color: #fff;
+    border: 1px;
+    border-color: #35495E;
+  }
+
+  .reg-text {
+    color: rgb(180, 180, 180);
+    font-size: 13px;
+  }
+
+  .btn-reg {
+    background: 0;
+    border: 0;
+    font-size: 5px;
+  }
+  
+>>>>>>> c8425effa99cfb65b92a1f7594e2b7a20c913c02
 </style>
