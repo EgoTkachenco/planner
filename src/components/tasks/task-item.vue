@@ -1,8 +1,9 @@
 <template>
   <div
     class="task-card px-3 py-2 my-2"
-    :class="{ completed: task.isComplete }"
+    :class="{ completed: task.isComplete, 'active': isActive }"
     :style="{ borderLeft: task.priority ? `3px solid ${task.priority.color}` : 'none' }"
+    @click="setActiveTask"
   >
     <div class="d-flex align-items-center w-100">
       <div class="w-100">
@@ -108,6 +109,9 @@
         this.task.dueDate = this.picker;
         this.showDatePicker = false;
         this.picker = null;
+      },
+      setActiveTask() {
+        this.$emit('set-active-task');
       }
     },
   };
@@ -119,6 +123,9 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+  }
+  .task-card.active {
+    background: #41B883;
   }
   .completed .text-field {
     text-decoration: line-through;

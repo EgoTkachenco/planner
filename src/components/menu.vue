@@ -84,7 +84,7 @@
     background: rgb(33, 33, 47);
     z-index: 100;
     height: 85px;
-    padding: 5px 10px;
+    padding: 5px 0;
     position: fixed;
     width: 100%;
     left: 0;
@@ -93,22 +93,27 @@
     justify-content: center;
     align-items: center;
 		flex-direction: column;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
   }
   .nav-link {
     position: relative;
-    text-align: start;
     align-items: center;
     font-size: 25px;
     color: white;
     opacity: 0;
     display: flex;
+    background: #35495E;
+    width: 180px;
   }
 	.menu {
 		display: none;
+    justify-content: space-around;
+    width: 100%;
 	}
 	nav.active .menu {
 		display: flex;
 		flex-direction: row;
+    padding-bottom: 15px;
 	}
   nav.active {
     height: auto;
@@ -120,7 +125,7 @@
   }
   .toggle-btn {
     position: absolute;
-    top: 20px;
+    top: 27.5px;
     height: 30px;
     width: 40px;
     right: 5%;
@@ -133,7 +138,7 @@
   .toggle-btn .active {
     transform: rotate(45deg);
     font-size: 2.5rem;
-    line-height: 50px;
+    line-height: 30px;
     display: none;
   }
   .toggle-btn span {
@@ -150,10 +155,10 @@
   }
   .warning-tasks {
     position: absolute;
-    right: -5px;
-    top: -5px;
-    width: 16px;
-    height: 16px;
+    right: -10px;
+    top: -10px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     font-size: 0.9rem;
     background: #b71c1c;
