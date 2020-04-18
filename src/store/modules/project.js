@@ -20,7 +20,7 @@ let mutations = {
 let actions = {
   loadProjects({ commit }) {
     database = firebase.database().ref(this.state.auth.user.id);
-    database.on('value', snapshot => {
+    database.on('value', (snapshot) => {
       commit('SET_PROJECTS', snapshot.val());
     });
     commit('DEF_MUT');
@@ -28,7 +28,17 @@ let actions = {
   addProject({ commit }, project) {
     database.child('projects').push(project);
     commit('DEF_MUT');
-  }
+  },
+  updateProject({ commit }, { id, project }) {
+    debugger
+    database
+      .child('projects')
+      .child(id)
+      .transaction(() => {
+        return project;
+      });
+    commit('DEF_MUT');
+  },
 };
 
 export default {

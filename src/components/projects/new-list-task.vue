@@ -66,9 +66,9 @@
     methods: {
       addTask() {
         this.newTask.created = new Date();
-        this.$store.dispatch('addTask', {
+        this.$emit('addTask', {
           task: this.newTask,
-          listId: this.$route.params.id,
+          listId: this.id,
         });
         this.close();
       },
