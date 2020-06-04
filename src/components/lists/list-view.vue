@@ -3,15 +3,17 @@
     <div class="col-12">
       <div class="view-card">
         <div class="d-flex align-items-center">
-          <div class="h4">
-            <b>{{ list.title }}</b>
+          <div>
+            <b class="h4">{{ list.title }}</b>
+            <br>
+            <div class="text-muted">{{list.description}}</div>
           </div>
           <div class="ml-auto">
             <v-btn @click="showTaskDialog = true" dark text>
               <v-icon>mdi-plus</v-icon>
             </v-btn>
-            <v-btn @click="startEdit" v-if="activeTask" dark text>edit task</v-btn>
-            <v-btn @click="removeList" v-if="activeTask" dark text>remove task</v-btn>
+            <v-btn @click="startEdit" dark text>edit list</v-btn>
+            <v-btn @click="removeList" dark text>remove list</v-btn>
 						<v-btn dark text @click="showComplete = !showComplete">
               {{ showComplete ? 'Show Incomplete Tasks' : 'Show History' }}
             </v-btn>
@@ -23,13 +25,13 @@
         :key="index"
         @set-active-task="activeTask === index ? activeTask = null : activeTask = index"
         :task="item"
-        :index="index"
         :isActive="activeTask === index"
       ></task-item>
     </div>
 
     <task-add-dialog
       :show="showTaskDialog"
+      :id="list.id"
       @close="showTaskDialog = false"
     ></task-add-dialog>
 
@@ -76,7 +78,7 @@
   import taskItem from '../tasks/task-item.vue';
 
   export default {
-    props: ['listId'],
+    props: ['list'],
     data: () => ({
       showTaskDialog: false,
       activeTask: null,
@@ -85,15 +87,14 @@
       isEditList: false,
     }),
     computed: {
-      list() {
-        return this.$store.state.todo.lists[this.listId];
-      },
       listTasks() {
-        let list = this.$store.state.todo.lists[this.listId].tasks;
+        let list = this.$store.state.todo.activeList;
         let result = {};
-        for (let task in list) {
-          if (list[task].isComplete === this.showComplete) {
-            result[task] = list[task];
+        if(list) {
+          for (let task in list.tasks) {
+            if (list.tasks[task].isCompleted === this.showComplete) {
+              result[task] = list.tasks[task];
+            }
           }
         }
         return result;
@@ -103,7 +104,7 @@
       editList() {
         this.$store.dispatch('editList', {
           list: this.editedList,
-          id: this.listId,
+          id: this.list.id,
         });
         this.isEditList = false;
       },
@@ -113,7 +114,7 @@
       },
       removeList() {
         if (confirm('Do you really want to remove this list ?')) {
-          this.$store.dispatch('removeList', this.id);
+          this.$store.dispatch('removeList', this.list.id);
         }
       },
     },

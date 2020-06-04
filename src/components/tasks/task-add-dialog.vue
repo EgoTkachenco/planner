@@ -25,7 +25,7 @@
             <v-list-item
               v-for="(item, index) in colors"
               :key="index"
-              @click="newTask.priority = item"
+              @click="newTask.priority = index+1"
             >
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
@@ -36,6 +36,7 @@
           Save
         </v-btn>
       </div>
+      <span v-if="error" class="h4 text-danger mb-5">{{error}}</span>
     </div>
 
     <div class="dialog-overlay flex-column" v-if="showDatePicker">
@@ -51,9 +52,8 @@
     data: () => ({
       newTask: {
         text: '',
-        isComplete: false,
-        created: null,
-        dueDate: null
+        isCompleted: false,
+        creationDate: null,
       },
       showDatePicker: false,
       picker: null,
@@ -62,26 +62,34 @@
         { title: 'Medium', color: '#FF9800' },
         { title: 'Low', color: '#76FF03' },
       ],
+
+      error: ''
     }),
     methods: {
       addTask() {
-        this.newTask.created = new Date();
-        this.$store.dispatch('addTask', {
-          task: this.newTask,
-          listId: this.$route.params.id,
-        });
+        this.newTask.creationDate = new Date();
+        this.newTask.listId = this.id;
+        this.$store.dispatch('addTask', this.newTask)
+          .then(res => {
+            if(res) {
+              this.error = res;
+            } else {
+              this.close();
+            }
+          });
+        
         this.close();
       },
       close() {
         this.newTask = {
           text: '',
-          isComplete: false,
+          isCompleted: false,
           created: null,
         };
         this.$emit('close');
       },
       saveDate() {
-        this.newTask.dueDate = this.picker;
+        this.newTask.dueDate = new Date(this.picker).getTime();
         this.showDatePicker = false;
         this.picker = null;
       }

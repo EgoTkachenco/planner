@@ -8,13 +8,13 @@
           width="300px"
           height="100px"
         />
-        <div class="h3 text-center mb-5">Sign Up / Sign In</div>
+        <div class="h3 text-center mb-5">Sign In</div>
         <div class="form-group">
           <input
             type="email"
             class="form-control font-weight-bold"
-            v-model="login"
-            placeholder="Login"
+            v-model="email"
+            placeholder="Email"
           />
         </div>
         <div class="form-group">
@@ -26,18 +26,14 @@
           />
         </div>
 
-        <div class="error p-1" v-if="error">{{ error }}</div>
 
-        <button class="btn btn-primary font-weight-bold mt-5" @click="loginWithEmail">
+        <button class="btn btn-primary font-weight-bold mt-5 mb-2" @click="loginWithEmail">
           Sign In
         </button>
 
-        <br />
+        <span v-if="error" class="h5 text-danger mb-5">{{error}}</span>
 
-        <button class="text-warning mt-md-5" @click="googleSignIn">
-          Sign with Google
-        </button>
-        <br>
+        <router-link :to="{name: 'Registration'}">Sign Up</router-link>
 
       </div>
       <div class="auth-card" v-else>
@@ -53,7 +49,7 @@
       isLoading: false,
       messageTimeout: null,
       loadingMessage: '',
-      login: '',
+      email: '',
       password: '',
       error: '',
     }),
@@ -86,25 +82,21 @@
       },
     },
     methods: {
-
-      Registration() {
-        
-      },
-
       loginWithEmail() {
         if (this.isFormValid(this.login, this.password)) {
           this.isLoading = true;
-          this.$store
-            .dispatch('signIn', { login: this.login, password: this.password })
-            .then(() => {
+          this.$store.dispatch('signIn', { email: this.email, password: this.password })
+            .then(res => {
+              debugger
+              if(res) {
+                this.error = res;
+                this.isLoading = false;
+              }
               if (this.$store.state.auth.user) {
                 this.isLoading = false;
                 this.$router.push({ name: 'Home' });
               }
             })
-            .catch((err) => {
-              this.error = err.msg;
-            });
         }
       },
       isFormValid(login, password) {
@@ -113,15 +105,6 @@
         } else {
           return false;
         }
-      },
-      googleSignIn() {
-        this.isLoading = true;
-        this.$store.dispatch('googleSignin').then(() => {
-          if (this.$store.state.auth.user) {
-            this.isLoading = false;
-            this.$router.push({ name: 'Home' });
-          }
-        });
       },
     },
   };

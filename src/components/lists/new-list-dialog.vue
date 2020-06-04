@@ -26,6 +26,8 @@
           v-model="newList.description"
         />
       </div>
+      
+      <span v-if="error" class="h4 text-danger mb-5">{{error}}</span>
 
       <button type="button" @click="addList" class="btn success-bg  btn-add">
         +
@@ -41,19 +43,24 @@
       newList: {
         title: '',
         description: '',
-        tasks: [],
       },
+      error: ''
     }),
     methods: {
       addList() {
-        this.$store.dispatch('addList', this.newList);
-        this.close();
+        this.$store.dispatch('addList', this.newList)
+          .then(res => {
+            if(res) {
+              this.error = res;
+            } else {
+              this.close();
+            }
+          });
       },
       close() {
         this.newList = {
           title: '',
           description: '',
-          tasks: [],
         };
         this.$emit('close');
       },

@@ -19,29 +19,23 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-3">
-      <div class="lists-card">
-        <div class="lists-card__header">
-          <input
-            type="text"
-            class="form-control text-field"
-            autocomplete="off"
-            placeholder="Search..."
-          />
-        </div>
+    <div class="col-12 col-md-4">
+      <div class="lists-card p-3">
         <list-item
           v-for="(list, index) in lists"
           :key="index"
           :list="list"
-          :activeListId="activeList"
-          @set-list="activeList = index"
-          :id="index"
+          :activeListId="activeListId"
+          @set-list="setActiveList(list.id, index)"
         ></list-item>
       </div>
     </div>
 
-    <div class="col-12 col-md-9">
-      <listView :listId="activeList"></listView>  
+    <div class="col-12 col-md-8">
+      <listView v-if="activeListId" :list="lists[activeListIndex]"></listView>  
+      <div class="px-5" v-else>
+        Choose list
+      </div>
     </div>
 
     <new-list-dialog
@@ -61,7 +55,8 @@
     data: () => ({
       name: '',
       showNewListDialog: false,
-      activeList: null
+      activeListId: null,
+      activeListIndex: null
     }),
     components: {
       listItem,
@@ -75,7 +70,16 @@
         },
       },
     },
-    methods: {},
+    methods: {
+      setActiveList(listId, index) {
+        this.activeListId = listId;
+        this.activeListIndex = index;
+        this.$store.dispatch('loadTasks', listId);
+      }
+    },
+    created() {
+      this.$store.dispatch('loadLists');
+    }
   };
 </script>
 

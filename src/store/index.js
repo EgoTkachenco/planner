@@ -6,7 +6,9 @@ import projects from './modules/project';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    serverUrl: 'http://localhost:3000/api',
+  },
   mutations: {},
   actions: {},
   modules: {

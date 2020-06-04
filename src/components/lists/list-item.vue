@@ -2,7 +2,7 @@
   <div
     class="list-card c-secondary my-2 p-2"
     @click="setActiveList"
-    :class="{ 'active': activeListId === id }"
+    :class="{ 'active': activeListId === list.id }"
   >
     <div class="d-flex align-items-center">
       <span class="h4">{{ list.title }}</span>
@@ -22,14 +22,14 @@
 
 <script>
   export default {
-    props: ['list', 'id', 'activeListId'],
+    props: ['list', 'activeListId'],
     computed: {
       listHighPrio() {
         let highPrio = 0;
         for (let element in this.list.tasks) {
           let task = this.list.tasks[element];
           if (
-            !task.isComplete &&
+            !task.isCompleted &&
             task.priority &&
             task.priority.title === 'High'
           ) {
@@ -53,6 +53,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    cursor: pointer;
   }
   .list-card.active {
     background: #41B883;

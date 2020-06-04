@@ -1,69 +1,55 @@
-import firebase from 'firebase';
-let provider = new firebase.auth.GoogleAuthProvider();
-
-// let apiUrl = 'https://intense-meadow-61425.herokuapp.com/api/'
+import axios from '../axios'
 
 let state = {
   user: null,
+  token: null
 };
 
 let mutations = {
   SET_USER(state, payload) {
     state.user = payload;
   },
+  LOG_IN_USER(state, payload) {
+    state.token = payload;
+    let user = {token: payload, expirationDate: new Date().getTime() + 1000*60*60*24 }
+		localStorage.setItem('user', JSON.stringify(user));
+  }
 };
 
 let actions = {
-  async googleSignin({ commit }) {
-    await firebase
-      .auth()
+  async relogUser({ commit, dispatch }, token) {
+    commit('LOG_IN_USER', token);
+    await dispatch('getMe');
+  },
 
-      .signInWithPopup(provider)
-      .then(function(result) {
-
-        let user = JSON.parse(localStorage.getItem('user'));
-        if(!user) {
-          localStorage.setItem('user', JSON.stringify({
-            expirationDate: new Date().getTime() + 1000 * 60 * 60 * 24,
-            name: result.user.displayName, 
-            email: result.user.email, 
-            img: result.user.photoURL, 
-            id: result.user.uid
-          }))
-        }
-
-        commit('SET_USER', { 
-					name: result.user.displayName, 
-					email: result.user.email, 
-					img: result.user.photoURL, 
-					id: result.user.uid
-        });
+  signIn({ commit, dispatch }, { email, password }) {
+    return axios.post('/auth', { email, password })
+			.then(async res => {
+				commit('LOG_IN_USER', res.data);
+				await dispatch('getMe');
+			})
+			.catch(error => {
+        return error.response.data
+      });
+  },
+  signUp({ dispatch }, form) {
+    return axios.post('/users', form)
+			.then(() => {
+        dispatch('signIn', { login: form.email, password: form.password})
+			})
+			.catch(error => {
+        return error.response.data
+      });
+  },
+  getMe({state, commit}) {
+    if(state.token) {
+      return axios.get('/users/me', { headers: {'x-auth-token': state.token}})
+      .then(res => {
+        commit('SET_USER', res.data);
+        return res.data._id;
       })
-  },
-
-  relogUser({ commit }, user) {
-    commit('SET_USER', { 
-      name: user.name, 
-      email: user.email, 
-      img: user.img, 
-      id: user.id
-    });
-  },
-
-  googleSignout({ commit }) {
-    firebase
-      .auth()
-      .signOut()
-      .then(
-        function() {
-          commit('SET_USER', null);
-        },
-      );
-  },
-  
-  // signIn({ commit }, { login, password }) {
-    
-  // }
+    }
+  }
 };
 
 export default {

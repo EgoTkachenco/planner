@@ -65,7 +65,7 @@
 
 <script>
   export default {
-    props: ['task', 'isActive', 'index'],
+    props: ['task', 'isActive'],
     data: () => ({
       isEdit: false,
       showDatePicker: false,
@@ -81,8 +81,7 @@
       editTask() {
         this.$store.dispatch('editTask', {
           task: this.task,
-          taskId: this.index,
-          listId: this.$route.params.id,
+          id: this.task._id,
         });
         this.isEdit = false;
         this.rows = 1;
@@ -92,17 +91,14 @@
         this.showDatePicker = true;
       },
       removeTask() {
-        this.$store.dispatch('removeTask', {
-          taskId: this.index,
-          listId: this.$route.params.id,
-        });
+        this.$store.dispatch('removeTask', this.task._id);
       },
       complete() {
-        this.task.isComplete = true;
+        this.task.isCompleted = true;
         this.editTask();
       },
       start() {
-        this.task.isComplete = false;
+        this.task.isCompleted = false;
         this.editTask();
       },
       saveDate() {

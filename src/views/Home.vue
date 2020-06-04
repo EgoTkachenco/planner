@@ -2,7 +2,7 @@
   <div class="row pt-5 nav-margin">
     <app-menu></app-menu>
     
-    <div class="col-12">
+    <div style="display: none" class="col-12">
 			<today-tasks></today-tasks>
 		</div>
   </div>

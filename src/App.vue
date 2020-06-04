@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <div class="container h-100">
+    <div class="container-fluid h-100">
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
@@ -11,19 +11,6 @@
 <script>
   import Vuetify from 'vuetify'
   export default {
-    computed: {
-      user() {
-        return this.$store.state.auth.user;
-      }
-    },
-    watch: {
-      user(val) {
-        if(val) {
-          this.$store.dispatch('loadLists');
-          this.$store.dispatch('loadProjects');
-        }
-      }
-    },
     vuetify: new Vuetify()
   };
 </script>

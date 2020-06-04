@@ -15,11 +15,6 @@ const routes = [
     component: () => import('../views/Lists.vue'),
   },
   {
-    path: '/list/:id',
-    name: 'List',
-    component: () => import('../views/List.vue'),
-  },
-  {
     path: '/',
     name: 'Auth',
     component: () => import('../views/Auth.vue'),
@@ -50,8 +45,8 @@ const routes = [
     component: () => import('../views/Project.vue'),
   },
   {
-    path: '/reg',
-    name: 'Reg',
+    path: '/signup',
+    name: 'Registration',
     component: () => import('../views/Reg.vue'), 
   }
 ];
@@ -64,19 +59,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let user = JSON.parse(localStorage.getItem('user'));
-  if(user && user.expirationDate >= new Date().getTime()) {
-    store.dispatch('relogUser', user);
-    store.dispatch('loadLists');
-    store.dispatch('loadProjects'); 
+  if(!store.state.auth.user && user && user.expirationDate >= new Date().getTime()) {
+    store.dispatch('relogUser', user.token)
+    .then(() => {
+      router.push({ name: 'Home' });
+    });
+    // 
+    // store.dispatch('loadProjects'); 
   }
-
   if (store.state.auth.user) {
-    if (to.name === 'Auth' || to.name === 'Reg') {
+    if (to.name === 'Auth' || to.name === 'Registration') {
       router.push({ name: 'Home' });
     } else {
       next();
     }
-  } else if (to.name === 'Auth' || to.name === 'Reg') {
+  } else if (to.name === 'Auth' || to.name === 'Registration') {
     next();
   } else {
     router.push({ name: 'Auth' });

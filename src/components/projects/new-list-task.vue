@@ -51,9 +51,8 @@
     data: () => ({
       newTask: {
         text: '',
-        isComplete: false,
-        created: null,
-        dueDate: null
+        isCompleted: false,
+        creationDate: null,
       },
       showDatePicker: false,
       picker: null,
@@ -65,7 +64,7 @@
     }),
     methods: {
       addTask() {
-        this.newTask.created = new Date();
+        this.newTask.creationDate = new Date();
         this.$emit('addTask', {
           task: this.newTask,
           listId: this.id,
@@ -75,7 +74,7 @@
       close() {
         this.newTask = {
           text: '',
-          isComplete: false,
+          isCompleted: false,
           created: null,
         };
         this.$emit('close');
