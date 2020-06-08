@@ -2,7 +2,7 @@
   <div class="row pt-5 nav-margin">
     <app-menu></app-menu>
     
-    <div style="display: none" class="col-12">
+    <div class="col-12">
 			<today-tasks></today-tasks>
 		</div>
   </div>
@@ -15,7 +15,10 @@
 		components: {
       todayTasks,
       'app-menu': menu
-		}
+    },
+    created() {
+      this.$store.dispatch('getTasksForToday');
+    }
   };
 </script>
 

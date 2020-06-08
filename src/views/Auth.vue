@@ -87,7 +87,6 @@
           this.isLoading = true;
           this.$store.dispatch('signIn', { email: this.email, password: this.password })
             .then(res => {
-              debugger
               if(res) {
                 this.error = res;
                 this.isLoading = false;

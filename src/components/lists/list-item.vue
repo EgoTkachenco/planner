@@ -1,6 +1,6 @@
 <template>
   <div
-    class="list-card c-secondary my-2 p-2"
+    class="list-card c-secondary p-2"
     @click="setActiveList"
     :class="{ 'active': activeListId === list.id }"
   >
@@ -31,7 +31,7 @@
           if (
             !task.isCompleted &&
             task.priority &&
-            task.priority.title === 'High'
+            task.priority.title === '3'
           ) {
             highPrio++;
           }

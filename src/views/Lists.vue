@@ -20,7 +20,7 @@
     </div>
 
     <div class="col-12 col-md-4">
-      <div class="lists-card p-3">
+      <div class="lists-card" v-if="lists">
         <list-item
           v-for="(list, index) in lists"
           :key="index"
@@ -28,6 +28,9 @@
           :activeListId="activeListId"
           @set-list="setActiveList(list.id, index)"
         ></list-item>
+      </div>
+      <div class="lists-card" v-else>
+        <div class="text-center">No Lists</div>
       </div>
     </div>
 

@@ -75,16 +75,16 @@
               this.error = res;
             } else {
               this.close();
+              let socket = this.$store.state.projects.socket;
+              if(socket) socket.emit('update-list', this.id)
             }
           });
-        
-        this.close();
       },
       close() {
         this.newTask = {
           text: '',
           isCompleted: false,
-          created: null,
+          creationDate: null,
         };
         this.$emit('close');
       },

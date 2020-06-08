@@ -19,8 +19,12 @@
       </div>
     </div>
 
-    <div class="col-12 col-md-4" v-for="(project, id) in projects" :key="id">
-      <project-item :project="project" :id="id"></project-item>
+    <div class="col-12 col-md-4" v-for="(project, index) in projects" :key="index">
+      <router-link :to="{ path: `/project/${project._id}` }" tag="div" class="list-card my-2 p-2">
+        <div class="d-flex align-items-center">
+          <span class="h4">{{project.title}}</span>
+        </div>
+      </router-link>
     </div>
 
     <new-project-dialog
@@ -31,7 +35,6 @@
 </template>
 
 <script>
-  import projectItem from '../components/projects/project-item';
   import newProjectDialog from '../components/projects/new-project-dialog';
 
   export default {
@@ -41,7 +44,6 @@
       showNewProjectDialog: false,
     }),
     components: {
-      projectItem,
       newProjectDialog,
     },
     computed: {
@@ -52,7 +54,20 @@
       },
     },
     methods: {},
+    created() {
+      this.$store.dispatch('loadProjects');
+    }
   };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .list-card {
+    background: rgb(36, 35, 51);
+    border-radius: 10px;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+  }
+</style>

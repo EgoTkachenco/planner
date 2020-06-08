@@ -1,7 +1,7 @@
 <template>
-  <div class="row text-white" v-if="list">
+  <div class="row text-white">
     <div class="col-12 pt-0">
-      <div class="view-card">
+      <div class="view-card" v-if="list">
         <div class="d-flex align-items-center">
           <div>
             <div class="h4 mb-0 text-left"><b>{{ list.title }}</b></div>
@@ -11,6 +11,7 @@
             <v-btn @click="showTaskDialog = true" dark text>
               <v-icon>mdi-plus</v-icon>
             </v-btn>
+            <v-btn @click="showCalendar = true" dark text>calendar</v-btn>
             <v-btn @click="startEdit" dark text>edit list</v-btn>
             <v-btn @click="removeList" dark text>remove list</v-btn>
 						<v-btn dark text @click="showComplete = !showComplete">
@@ -51,6 +52,8 @@
       </div>
     </div>
 
+		<calendarDialog :tasks="listTasks" :show="showCalendar" @close="showCalendar = false"></calendarDialog>
+
     <div v-if="isEditList" class="dialog-overlay" @click="isEditList = false">
       <div class="menu-card mx-5 p-3" @click.stop>
         <div class="text">Edit List</div>
@@ -75,21 +78,29 @@
 <script>
   import taskAddDialog from '../tasks/task-add-dialog.vue';
   import taskItem from '../tasks/task-item.vue';
+  import calendarDialog from './calendar-dialog';
 
   export default {
-    props: ['list'],
     data: () => ({
+			showCalendar: false,
       showTaskDialog: false,
       activeTask: null,
       showComplete: false,
       showMenuDialog: false,
-      isEditList: false,
+			isEditList: false,
+			
+			list: null
     }),
     computed: {
       listTasks() {
-        let list = this.$store.state.todo.activeList;
-        let result = {};
+				let list = this.$store.state.todo.activeList;
+				let result = {};
         if(list) {
+					this.$store.state.projects.lists.map(item => {
+						if(item.id === list.id) {
+							this.list = item;
+						}
+					})
           for (let task in list.tasks) {
             if (list.tasks[task].isCompleted === this.showComplete) {
               result[task] = list.tasks[task];
@@ -101,12 +112,10 @@
     },
     methods: {
       editList() {
-        this.$store.dispatch('editList', {
+        this.$store.dispatch('editProjectList', {
           list: this.editedList,
           id: this.list.id,
         });
-        let socket = this.$store.state.projects.socket;
-        if(socket) socket.emit('update-list', this.list.id)
         this.isEditList = false;
       },
       startEdit() {
@@ -115,14 +124,14 @@
       },
       removeList() {
         if (confirm('Do you really want to remove this list ?')) {
-          this.$store.dispatch('removeList', this.list.id);
-          
+					this.$store.dispatch('removeProjectList', this.list.id);
         }
       },
     },
     components: {
       taskAddDialog,
-      taskItem,
+			taskItem,
+			calendarDialog
     },
   };
 </script>

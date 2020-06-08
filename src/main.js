@@ -2,24 +2,22 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
+// import SocketIO from 'socket.io-client';
+// import VueSocketIO from 'vue-socket.io'
 Vue.config.productionTip = false
 
-import firebase from 'firebase/app';
 import './registerServiceWorker'
 import vuetify from './plugins/vuetify';
 
-var firebaseConfig = {
-  apiKey: "AIzaSyBt4sQDJOVAR9uQxlmM9cV6WvGDHPexeVc",
-  authDomain: "planner-org-app.firebaseapp.com",
-  databaseURL: "https://planner-org-app.firebaseio.com",
-  projectId: "planner-org-app",
-  storageBucket: "planner-org-app.appspot.com",
-  messagingSenderId: "52858916149",
-  appId: "1:52858916149:web:250934d4606a93f4ff507c"
-};
-
-firebase.initializeApp(firebaseConfig);
+// Vue.use(new VueSocketIO({
+//   debug: true,
+//   connection: SocketIO(`http://localhost:3000/room`), 
+//   vuex: {
+//     store,
+//     actionPrefix: "SOCKET_",
+//     options: { path: "/room/" } 
+//   }
+// }));
 
 new Vue({
   router,

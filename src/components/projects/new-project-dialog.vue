@@ -16,8 +16,10 @@
           v-model="newProject.title"
         />
       </div>
+      
+      <span v-if="error" class="text-danger">{{error}}</span>
 
-      <button type="button" @click="addProject" class="btn success-bg  btn-add">
+      <button type="button" @click="addProject" class="btn success-bg mt-5 btn-add">
         +
       </button>
     </div>
@@ -31,11 +33,18 @@
       newProject: {
         title: '',
       },
+      error: ''
     }),
     methods: {
       addProject() {
-        this.$store.dispatch('addProject', this.newProject);
-        this.close();
+        this.$store.dispatch('addProject', this.newProject)
+          .then(res => {
+            if(res) {
+              this.error = res;
+            } else {
+              this.close();
+            }
+          });
       },
       close() {
         this.newProject = {

@@ -1,81 +1,99 @@
 <template>
-  <div class="row">
-      {{project}}
-    <div class="col-4">
-      <projectTasks @addTask="addTask" :lists="project.lists"></projectTasks>
+  <div class="row" v-if="project">
+    <div class="col-12 text-white d-flex align-items-center">
+      <div class="h4 text-left d-flex align-items-center">
+        <router-link tag="span" :to="{ name: 'Projects' }">
+          <img
+            src="../assets/svg/arrow-left.svg"
+            width="25"
+            class="mr-3"
+            alt="back"
+          />
+        </router-link>
+        {{ project.title }}
+      </div>
+      <div class="ml-auto">
+        <v-btn @click="showInviteDialog = true" dark text>
+          invite user
+        </v-btn>
+      </div>
+    </div>
+    <div class="col-4 px-0">
+      <projectNavigation></projectNavigation>
     </div>
 
-    <button class="btn btn-primary" @click="showNewListDialog = true">Add task</button>
+    <div class="col-8">
+      <projectListView></projectListView>
+    </div>
 
-    <projectListDialog :show="showNewListDialog" @close="showNewListDialog = false" @addList="addList($event)"></projectListDialog>
+     <div class="dialog-overlay" v-if="showInviteDialog">
+      <form  @submit.prevent="invite" class="dialog-card p-3 mx-1">
+        <div class="close-btn" @click="showInviteDialog = false">+</div>
+
+        <div class="h3 text-center">New List</div>
+
+        <div class="form-group">
+          <label for="title">User Email</label>
+          <input
+            type="email"
+            class="form-control text-field"
+            id="email"
+            required
+            autocomplete="off"
+            placeholder="Email"
+            v-model="inviteEmail"
+          />
+        </div>
+        
+        <span v-if="error" class="h4 text-danger mb-5">{{error}}</span>
+
+        <button type="submit" class="btn success-bg  btn-add">
+          +
+        </button>
+      </form>
+    </div>
+
   </div>
 </template>
 
 <script>
-  // dueDate
-  // isComplete
-  // priority
-  //     color
-  //     title [Low, Medium, High]
-  // text
-  // status [In_Process, ...]
-  // assignedTo
-  // discussion ?
-  import projectTasks from '../components/projects/project-tasks';
-  import projectListDialog from '../components/projects/new-project-list';
-
+  import projectNavigation from "../components/projects/project-navigation";
+  import projectListView from "../components/projects/project-list-view";
   export default {
     data: () => ({
-      showNewListDialog: false
+      showInviteDialog: false,
+      socket: null,
+      inviteEmail: '',
+      error: ''
+
     }),
     components: {
-      projectTasks,
-      projectListDialog
+      projectNavigation,
+      projectListView
     },
     computed: {
       project: {
         get() {
-          return this.$store.state.projects.projects[this.$route.params.id];
-        },
-        set(value) {
-            debugger
-          this.$store.dispatch('updateProject', {
-            id: this.$route.params.id,
-            project: value,
-          });
-        },
-      },
-      listTasks() {
-        let list = this.$store.state.todo.lists[this.$route.params.id].tasks;
-        let result = {};
-        for (let task in list) {
-          if (list[task].isComplete === this.showComplete) {
-            result[task] = list[task];
-          }
+          return this.$store.state.projects.activeProject;
         }
-        return result;
       },
     },
+    created() {
+      this.$store.dispatch('loadProjectLists', this.$route.params.id);
+      this.$store.dispatch('joinSocketRoom', this.$route.params.id)
+    },
     methods: {
-      addList(list) {
-        let project = Object.assign({}, this.project);
-        if (project.list) {
-          project.lists.push(list);
-        } else {
-          project.lists = [list];
-        }
-        this.project = project;
-      },
-      addTask({ listId, task }) {
-          debugger
-        let project = Object.assign({}, this.project);
-        if (project.lists[listId].tasks) {
-          project.lists[listId].tasks.push(task);
-        } else {
-          project.lists[listId].tasks = [task];
-        }
-        this.project = project;
-      },
+      invite() {
+        this.$store.dispatch('inviteUser', {email: this.inviteEmail})
+          .then(res => {
+            if(res) {
+              this.error = res;
+            } else {
+              this.inviteEmail = null;
+              this.showInviteDialog = false;
+            }
+          });
+      }
     },
   };
 </script>

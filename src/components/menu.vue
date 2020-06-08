@@ -8,14 +8,12 @@
       <router-link
         :to="{ name: 'Todo' }"
         class="nav-link"
-        :event="collapsed ? 'click' : ''"
-      >
+        :event="collapsed ? 'click' : ''">
         <img src="../assets/svg/list.svg" width="25" class="mr-3" alt="list" />
         Tasks
-
-        <div class="warning-tasks">3</div>
+        <!-- <div class="warning-tasks">3</div> -->
       </router-link>
-      <router-link
+      <!-- <router-link
         :to="{ name: 'ShopList' }"
         class="nav-link"
         :event="collapsed ? 'click' : ''"
@@ -41,16 +39,22 @@
           alt="calendar"
         />
         Plan
-      </router-link>
+      </router-link> -->
 
       <router-link
         :to="{ name: 'Projects' }"
         class="nav-link"
-        :event="collapsed ? 'click' : ''"
-      >
+        :event="collapsed ? 'click' : ''">
         <img src="../assets/svg/list.svg" width="25" class="mr-3" alt="list" />
         Projects
       </router-link>
+
+      <div
+        class="nav-link"
+        style="cursor: pointer"
+        @click="logOut">
+        Log out
+      </div>
     </div>
 
     <div class="toggle-btn" @click="collapsed = !collapsed">
@@ -72,6 +76,13 @@
         return this.$store.state.auth.user;
       },
     },
+    methods: {
+      logOut() {
+        localStorage.removeItem('user')
+        this.$store.commit('SET_USER', null)
+        this.$router.push({name: 'Auth'})
+      }
+    }
   };
 </script>
 

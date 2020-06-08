@@ -38,7 +38,7 @@
 
 <script>
   export default {
-    props: ['show'],
+    props: ['show', 'action'],
     data: () => ({
       newList: {
         title: '',
@@ -48,7 +48,7 @@
     }),
     methods: {
       addList() {
-        this.$store.dispatch('addList', this.newList)
+        this.$store.dispatch(this.action ? this.action : 'addList', this.newList)
           .then(res => {
             if(res) {
               this.error = res;
@@ -68,7 +68,7 @@
   };
 </script>
 
-<style scoped>
+<style>
   .dialog-overlay {
     position: fixed;
     width: 100vw;

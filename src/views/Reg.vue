@@ -111,10 +111,8 @@
     },
     methods: {
       signUp() {
-        debugger
         this.$store.dispatch('signUp', this.form)
           .then(res => {
-            debugger
             if(res) {
               this.error = res
             }

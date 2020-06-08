@@ -2,7 +2,7 @@
   <div
     class="task-card px-3 py-2 my-2"
     :class="{ completed: task.isComplete, 'active': isActive }"
-    :style="{ borderLeft: task.priority ? `3px solid ${task.priority.color}` : 'none' }"
+    :style="{ borderLeft: task.priority ? `3px solid ${getColor(task.priority)}` : 'none' }"
     @click="setActiveTask"
   >
     <div class="d-flex align-items-center w-100">
@@ -15,9 +15,10 @@
           type="text"
           :disabled="!isEdit"
         ></textarea>
+        <div v-if="!isEdit && task.dueDate" class="text-left">{{new Date(task.dueDate).toLocaleString().slice(0, 10)}}</div>
       </div>
 
-      <div class="d-flex ml-auto mt-2" v-if="isActive && !isEdit">
+      <div class="d-flex ml-auto mt-2 cursor-p" v-if="isActive && !isEdit">
         <div @click.stop="complete" v-if="!task.isComplete" class="mx-2">
           <img src="../../assets/svg/done.svg" width="25" alt="done" />
         </div>
@@ -44,7 +45,7 @@
           <v-list-item
             v-for="(item, index) in colors"
             :key="index"
-            @click="task.priority = item"
+            @click="task.priority = index+1"
           >
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
@@ -72,26 +73,42 @@
       picker: null,
       rows: 1,
       colors: [
-        { title: 'High', color: '#F44336' },
-        { title: 'Medium', color: '#FF9800' },
         { title: 'Low', color: '#76FF03' },
+        { title: 'Medium', color: '#FF9800' },
+        { title: 'High', color: '#F44336' },
       ],
     }),
     methods: {
+      getColor(prio) {
+        switch (prio) {
+          case 3:
+            return '#F44336'
+          case 2:
+            return '#FF9800'
+          case 1:
+            return '#76FF03'
+          default:
+            break;
+        }
+      },
       editTask() {
         this.$store.dispatch('editTask', {
           task: this.task,
           id: this.task._id,
         });
+        let socket = this.$store.state.projects.socket;
+        if(socket) socket.emit('update-list', this.$store.state.todo.activeList.id)
         this.isEdit = false;
         this.rows = 1;
       },
       changeDueDate() {
-        this.picker = this.task.dueDate || null;
+        this.picker = null;
         this.showDatePicker = true;
       },
       removeTask() {
         this.$store.dispatch('removeTask', this.task._id);
+        let socket = this.$store.state.projects.socket;
+        if(socket) socket.emit('update-list', this.$store.state.todo.activeList.id)
       },
       complete() {
         this.task.isCompleted = true;
@@ -114,6 +131,9 @@
 </script>
 
 <style scoped>
+  .cursor-p div {
+    cursor: pointer;
+  }
   .task-card {
     background: rgb(36, 35, 51);
     display: flex;
