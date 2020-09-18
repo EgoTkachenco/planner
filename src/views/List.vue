@@ -1,7 +1,7 @@
 <template>
-  <div class="row text-white pt-5" v-if="list">
+  <div class="row" v-if="list">
     <div class="col-12 d-flex align-items-center">
-      <div class="h4 text-left d-flex align-items-center">
+      <div class="h4 mb-0 text-left d-flex align-items-center">
         <router-link tag="span" :to="{ name: 'Todo' }">
           <img
             src="../assets/svg/arrow-left.svg"
@@ -19,12 +19,12 @@
       </div>
     </div>
 
-    <div class="col-12 text-left my-3 pl-5">
+    <div class="col-12 text-left pl-5">
       {{ list.description }}
     </div>
 
     <div
-      class="col-12"
+      class="col-12 py-0"
       v-for="(item, index) in listTasks"
       :key="index"
       @click="activeTask === index ? (activeTask = null) : (activeTask = index)"
@@ -60,7 +60,7 @@
 
     <div v-if="isEditList" class="dialog-overlay" @click="isEditList = false">
       <div class="menu-card mx-5 p-3" @click.stop>
-        <div class="text">Edit List</div>
+        <div class="h4 text text-white">Edit List</div>
         <input
           v-model="editedList.title"
           class="form-control text-field mt-3"
@@ -73,7 +73,7 @@
           placeholder="Description"
         ></textarea>
 
-        <v-btn dark text @click="editList">Save</v-btn>
+        <v-btn rounded color="primary" @click="editList">Save</v-btn>
       </div>
     </div>
   </div>
@@ -120,7 +120,8 @@
       },
       removeList() {
         if (confirm('Do you really want to remove this list ?')) {
-          this.$store.dispatch('removeList', this.id);
+          this.$store.dispatch('removeList', this.$route.params.id);
+          this.$router.push({ name: 'Todo' });
         }
       },
     },
@@ -138,7 +139,7 @@
     border-radius: 10px;
     overflow: hidden;
     width: 100%;
-    background: rgb(33, 33, 47);
+    background: #191919;
     max-width: 400px;
   }
 </style>

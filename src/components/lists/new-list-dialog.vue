@@ -3,7 +3,7 @@
     <div class="dialog-card p-3 mx-1">
       <div class="close-btn" @click="close">+</div>
 
-      <div class="h3 text-center">New List</div>
+      <div class="h3 text-white text-center">New List</div>
 
       <div class="form-group">
         <label for="title">Title</label>
@@ -77,7 +77,7 @@
     color: #fff;
     width: 100%;
     max-width: 400px;
-    background: rgb(36, 35, 51);
+    background: #191919;
     border-radius: 10px;
     position: relative;
   }

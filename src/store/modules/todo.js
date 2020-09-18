@@ -1,5 +1,5 @@
-import firebase from 'firebase';
-
+import firebase from 'firebase/app';
+import 'firebase/database'
 let database = null;
 
 function getTodayTasks(lists) {
@@ -17,7 +17,7 @@ function getTodayTasks(lists) {
         group.tasks.push(taskItem);
       }
     }
-    result.push(group);
+    if(group.tasks.length > 0) result.push(group);
   }
   return result;
 }
@@ -25,7 +25,6 @@ function getTodayTasks(lists) {
 let state = {
   lists: null,
   todayTasks: null,
-  todayPlan: null,
 };
 
 let mutations = {
@@ -33,11 +32,6 @@ let mutations = {
     state.lists = payload.lists;
     let todayTasks = getTodayTasks(payload.lists);
     state.todayTasks = todayTasks;
-    state.todayPlan =
-      payload.todayPlan &&
-      payload.todayPlan.date === new Date().toISOString().slice(0, 10)
-        ? payload.todayPlan
-        : null;
   },
   DEF_MUT(state) {
     if (state) {
@@ -52,7 +46,6 @@ let actions = {
     database.on('value', snapshot => {
       commit('SET_LISTS', snapshot.val());
     });
-    commit('DEF_MUT');
   },
   addList({ commit }, list) {
     database.child('lists').push(list);

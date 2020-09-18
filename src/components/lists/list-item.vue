@@ -1,10 +1,10 @@
 <template>
-  <router-link :to="{ path: `/list/${id}` }" tag="div" class="list-card c-secondary my-2 p-2">
-    <div class="d-flex align-items-center">
+  <router-link :to="{ path: `/list/${id}` }" tag="div" class="list-card c-secondary my-1 p-2">
+    <div class="d-flex align-items-center text-white">
       <span class="h4">{{list.title}}</span>
-      <v-btn class="ml-auto" fab small color="error" v-if="listHighPrio">
+      <div class="prio-tasks__label" v-if="listHighPrio">
         {{ listHighPrio }}
-      </v-btn>
+      </div>
 
     </div>
   </router-link>
@@ -30,8 +30,8 @@
 
 <style scoped>
   .list-card {
-    background: rgb(36, 35, 51);
-    border-radius: 10px;
+    background: #191919;
+    border-radius: 5px;
     text-align: start;
     display: flex;
     flex-direction: column;
@@ -39,5 +39,16 @@
   }
   .text-field:disabled {
     font-size: 1.5rem;
+  }
+  .prio-tasks__label {
+    background: #ff5252;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;  
   }
 </style>

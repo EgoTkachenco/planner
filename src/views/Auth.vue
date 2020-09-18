@@ -9,7 +9,7 @@
           height="100px"
         />
         <div class="h3 text-center mb-5">Sign Up / Sign In</div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <input
             type="email"
             class="form-control font-weight-bold"
@@ -30,13 +30,13 @@
 
         <button class="btn btn-primary font-weight-bold mt-5" @click="loginWithEmail">
           Sign In
-        </button>
+        </button> -->
 
         <br />
 
-        <button class="text-warning mt-md-5" @click="googleSignIn">
+        <v-btn rounded large color="primary" class="mt-md-5" @click="googleSignIn">
           Sign with Google
-        </button>
+        </v-btn>
         <br>
 
       </div>

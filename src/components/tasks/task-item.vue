@@ -1,65 +1,69 @@
 <template>
-  <div
-    class="task-card px-3 py-2 my-2"
-    :class="{ completed: task.isComplete }"
-    :style="{ borderLeft: task.priority ? `3px solid ${task.priority.color}` : 'none' }"
-  >
-    <div class="d-flex align-items-center w-100">
-      <div class="w-100">
-        <textarea
-          class="form-control text-field text-left" 
-          v-model="task.text"
-          @keydown.enter="rows++"
-          :rows="!isEdit ? 1 : 3"
-          type="text"
-          :disabled="!isEdit"
-        ></textarea>
-      </div>
+  <div>
+    <div class="task-card px-3 py-2 my-1"
+        :class="{ completed: task.isComplete }"
+        :style="{ borderLeft: task.priority ? `3px solid ${task.priority.color}` : 'none' }">
+        <div class="d-flex align-items-center w-100">
+          <div class="w-100">
+            <textarea
+              class="form-control text-field text-left text-white" 
+              v-model="task.text"
+              @keydown.enter="rows++"
+              :rows="!isEdit ? 1 : 3"
+              type="text"
+              :disabled="!isEdit"
+            ></textarea>
+          </div>
 
-      <div class="d-flex ml-auto mt-2" v-if="isActive && !isEdit">
-        <div @click.stop="complete" v-if="!task.isComplete" class="mx-2">
-          <img src="../../assets/svg/done.svg" width="25" alt="done" />
+          <div class="d-flex ml-auto mt-2" v-if="isActive && !isEdit">
+            <div @click="complete" v-if="!task.isComplete" class="mx-2">
+              <img src="../../assets/svg/done.svg" width="25" alt="done" />
+            </div>
+            <div @click="start" v-else-if="task.isComplete" class="mx-2">
+              <img src="../../assets/svg/done.svg" width="25" alt="done" />
+            </div>
+            <div @click="isEdit = true" class="mx-2">
+              <img src="../../assets/svg/edit.svg" width="25" alt="done" />
+            </div>
+            <div @click="removeTask" class="mx-2">
+              <img src="../../assets/svg/remove.svg" width="25" alt="done" />
+            </div>
+          </div>
         </div>
-        <div @click.stop="start" v-else-if="task.isComplete" class="mx-2">
-          <img src="../../assets/svg/done.svg" width="25" alt="done" />
-        </div>
-        <div @click.stop="isEdit = true" class="mx-2">
-          <img src="../../assets/svg/edit.svg" width="25" alt="done" />
-        </div>
-        <div @click="removeTask" class="mx-2">
-          <img src="../../assets/svg/remove.svg" width="25" alt="done" />
-        </div>
-      </div>
-    </div>
 
-    <div class="ml-auto d-flex mt-2" v-if="isEdit">
-      <v-menu offset-y dark>
-        <template v-slot:activator="{ on }">
-          <v-btn text dark small v-on="on">
-            Priority
+        <div class="ml-auto d-flex mt-2" v-if="isEdit">
+          <v-menu offset-y dark>
+            <template v-slot:activator="{ on }">
+              <v-btn text dark small v-on="on">
+                Priority
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in colors"
+                :key="index"
+                @click="task.priority = item"
+              >
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <v-btn dark small text @click="changeDueDate">Due Date</v-btn>
+          <v-btn small color="success" class="mx-2" @click.stop="editTask">
+            Save
           </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(item, index) in colors"
-            :key="index"
-            @click="task.priority = item"
-          >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <v-btn dark small text @click="changeDueDate">Due Date</v-btn>
-      <v-btn small color="success" class="mx-2" @click.stop="editTask">
-        Save
-      </v-btn>
-    </div>
+        </div>
 
-     <div class="dialog-overlay flex-column" v-if="showDatePicker">
-        <v-date-picker dark v-model="picker"></v-date-picker>
-        <v-btn text dark class="mt-2" v-if="picker" @click="saveDate">Save</v-btn>
+        <div class="dialog-overlay flex-column" v-if="showDatePicker">
+            <v-date-picker dark v-model="picker"></v-date-picker>
+            <v-btn text dark class="mt-2" v-if="picker" @click="saveDate">Save</v-btn>
+        </div>
+      </div>
+    <div class="text-right">
+      {{ task.dueDate ? task.dueDate : '--//--' }}
     </div>
   </div>
+ 
 </template>
 
 <script>
@@ -115,7 +119,8 @@
 
 <style scoped>
   .task-card {
-    background: rgb(36, 35, 51);
+    background: #191919;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -128,5 +133,8 @@
   .text-field {
     min-height: 42px;
     line-height: 30px;
+  }
+  .text-field:disabled{
+    resize: none;
   }
 </style>

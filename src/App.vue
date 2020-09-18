@@ -11,19 +11,6 @@
 <script>
   import Vuetify from 'vuetify'
   export default {
-    computed: {
-      user() {
-        return this.$store.state.auth.user;
-      }
-    },
-    watch: {
-      user(val) {
-        if(val) {
-          this.$store.dispatch('loadLists');
-          this.$store.dispatch('loadProjects');
-        }
-      }
-    },
     vuetify: new Vuetify()
   };
 </script>
@@ -33,8 +20,9 @@
     font-family: 'Baloo Chettan 2', cursive;
     text-align: center;
     min-height: 100vh;
-    background: rgb(33, 33, 47);
-    color: #ffffff;
+    /* background: rgb(33, 33, 47); */
+    background: #fefefe;
+    color: rgb(33, 33, 47);
   }
   .success-bg {
     background: #37b86a;

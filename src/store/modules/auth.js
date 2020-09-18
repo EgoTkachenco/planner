@@ -21,16 +21,15 @@ let actions = {
       .signInWithPopup(provider)
       .then(function(result) {
 
-        let user = JSON.parse(localStorage.getItem('user'));
-        if(!user) {
-          localStorage.setItem('user', JSON.stringify({
-            expirationDate: new Date().getTime() + 1000 * 60 * 60 * 24,
-            name: result.user.displayName, 
-            email: result.user.email, 
-            img: result.user.photoURL, 
-            id: result.user.uid
-          }))
-        }
+        // let user = JSON.parse(localStorage.getItem('user'));
+        // if(user) {
+        localStorage.setItem('user', JSON.stringify({
+          expirationDate: new Date().getTime() + 1000 * 60 * 60 * 24,
+          name: result.user.displayName, 
+          email: result.user.email, 
+          img: result.user.photoURL, 
+          id: result.user.uid
+        }))
 
         commit('SET_USER', { 
 					name: result.user.displayName, 

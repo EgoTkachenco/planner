@@ -1,7 +1,7 @@
 <template>
-  <div class="row pt-5">
-    <div class="col-12 text-white d-flex align-items-center">
-      <div class="h4 text-left d-flex align-items-center">
+  <div class="row">
+    <div class="col-12 d-flex align-items-center">
+      <div class="h4 mb-0 text-left d-flex align-items-center">
         <router-link tag="span" :to="{ name: 'Home' }">
           <img
             src="../assets/svg/Home.svg"
@@ -13,14 +13,14 @@
         Tasks Lists
       </div>
       <div class="ml-auto" v-if="!showNewListDialog">
-        <v-btn @click="showNewListDialog = true" text class="text-white">
+        <v-btn @click="showNewListDialog = true" dark small> 
           ADD
         </v-btn>
       </div>
     </div>
 
     <div
-      class="col-12 col-md-3"
+      class="col-12 col-md-3 py-0"
       v-for="(list, index) in lists"
       :key="index"
     >

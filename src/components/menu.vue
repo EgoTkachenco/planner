@@ -8,48 +8,9 @@
       <router-link
         :to="{ name: 'Todo' }"
         class="nav-link"
-        :event="collapsed ? 'click' : ''"
-      >
+        :event="collapsed ? 'click' : ''">
         <img src="../assets/svg/list.svg" width="25" class="mr-3" alt="list" />
         Tasks
-
-        <div class="warning-tasks">3</div>
-      </router-link>
-      <router-link
-        :to="{ name: 'ShopList' }"
-        class="nav-link"
-        :event="collapsed ? 'click' : ''"
-      >
-        <img
-          src="../assets/svg/shop-cart.svg"
-          width="25"
-          class="mr-3"
-          alt="shop cart"
-        />
-        Shop List
-      </router-link>
-
-      <router-link
-        :to="{ name: 'Plan' }"
-        class="nav-link"
-        :event="collapsed ? 'click' : ''"
-      >
-        <img
-          src="../assets/svg/plan.svg"
-          width="25"
-          class="mr-3"
-          alt="calendar"
-        />
-        Plan
-      </router-link>
-
-      <router-link
-        :to="{ name: 'Projects' }"
-        class="nav-link"
-        :event="collapsed ? 'click' : ''"
-      >
-        <img src="../assets/svg/list.svg" width="25" class="mr-3" alt="list" />
-        Projects
       </router-link>
     </div>
 
@@ -81,8 +42,7 @@
     border-radius: 50%;
   }
   nav {
-    background: rgb(33, 33, 47);
-    z-index: 100;
+    background: #191919;
     height: 85px;
     padding: 5px 10px;
     position: fixed;
@@ -91,6 +51,7 @@
     top: 0;
     display: flex;
     justify-content: center;
+    z-index: 10;
     align-items: center;
 		flex-direction: column;
   }
@@ -129,6 +90,7 @@
     align-items: center;
     justify-content: space-around;
     cursor: pointer;
+    color: #ffffff;
   }
   .toggle-btn .active {
     transform: rotate(45deg);
@@ -139,6 +101,7 @@
   .toggle-btn span {
     width: 80%;
     height: 2px;
+    border-radius: 2px;
     display: block;
     background: #ffffff;
   }
@@ -148,19 +111,7 @@
   .active .toggle-btn .active {
     display: block;
   }
-  .warning-tasks {
-    position: absolute;
-    right: -5px;
-    top: -5px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    font-size: 0.9rem;
-    background: #b71c1c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  
   @media (max-width: 800px) {
     nav.active .menu {
 			flex-direction: column;

@@ -15,7 +15,11 @@
 		components: {
       todayTasks,
       'app-menu': menu
-		}
+    },
+    created() {
+      this.$store.dispatch('loadLists');
+      this.$store.dispatch('loadProjects');
+    }
   };
 </script>
 
